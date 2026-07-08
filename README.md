@@ -74,7 +74,7 @@ recurring operational concern.
 ## Prerequisites
 
 - **Windows 10 / 11 / Server 2016+** with Windows PowerShell **5.1** (PowerShell 7 also works).
-- An SMTP relay reachable from each host. The script ships with **placeholder** credentials — fill in your own before deploying.
+- An SMTP relay reachable from each host. The script ships with **placeholder** credentials - fill in your own before deploying.
 - **Local administrator rights** to register the Scheduled Task (one-time, on each host).
 - A consistent install path. The defaults assume:
 
@@ -85,7 +85,7 @@ recurring operational concern.
   ```
 
   > **Note:** `ScripsDoNotDelete` is intentionally spelled without the "t" in
-  > "Scrips" — that matches the existing convention. Either rename the folder
+  > "Scrips" - that matches the existing convention. Either rename the folder
   > AND every path constant in the scripts, or leave it as-is.
 
 ---
@@ -111,8 +111,8 @@ recurring operational concern.
    .\Install-ScheduledTask.ps1
    ```
 
-4. Confirm in **Task Scheduler → Task Scheduler Library →
-   UserProfileCleanup → PhysicalUserDiskSpaceTracking** that the task exists
+4. Confirm in **Task Scheduler -> Task Scheduler Library -> 
+   UserProfileCleanup -> PhysicalUserDiskSpaceTracking** that the task exists
    and is enabled.
 
 The next time any user signs in to this host, the task will run for them.
@@ -197,7 +197,7 @@ value here.
 `New-ScheduledTask*` cmdlets so you can clone it for any other PowerShell
 script you want to fire at logon. To repurpose it:
 
-### Step 1 — Copy the installer and rename it
+### Step 1 - Copy the installer and rename it
 
 Pick a descriptive name and keep the `Install-` prefix for clarity:
 
@@ -205,7 +205,7 @@ Pick a descriptive name and keep the `Install-` prefix for clarity:
 Install-MyOtherScriptTask.ps1
 ```
 
-### Step 2 — Edit the five variables at the top of the CONFIGURATION block
+### Step 2 - Edit the five variables at the top of the CONFIGURATION block
 
 These are the only values you normally need to change.
 
@@ -225,11 +225,11 @@ $Ps1Path  = 'C:\\ScripsDoNotDelete\\MyOtherScript.ps1'
 $WorkDir  = 'C:\\ScripsDoNotDelete'
 ```
 
-> **Tip:** `RunHiddenPS.vbs` is fully generic — it takes the .ps1 path as
+> **Tip:** `RunHiddenPS.vbs` is fully generic - it takes the .ps1 path as
 > its first argument. You do **not** need a separate copy of the VBS for
 > each script. Point every installer at the same `RunHiddenPS.vbs`.
 
-### Step 3 — Decide who the task should run as
+### Step 3 - Decide who the task should run as
 
 By default the installer uses `BUILTIN\Users`, which means *the currently
 signed-in user* runs the task in their own context. That is correct for
@@ -245,7 +245,7 @@ $Principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccou
 $Principal = New-ScheduledTaskPrincipal -UserId 'CONTOSO\svc-tasks' -LogonType Password -RunLevel Highest
 ```
 
-### Step 4 — Decide when the task should run
+### Step 4 - Decide when the task should run
 
 Replace the `New-ScheduledTaskTrigger` line. Common patterns:
 
@@ -268,7 +268,7 @@ $Trigger = New-ScheduledTaskTrigger -Once -At (Get-Date) `
             -RepetitionDuration ([TimeSpan]::MaxValue)
 ```
 
-### Step 5 — Decide how concurrent runs should behave
+### Step 5 - Decide how concurrent runs should behave
 
 ```powershell
 # Parallel (default) — fire a new instance even if one is already running.
@@ -282,7 +282,7 @@ $Settings = New-ScheduledTaskSettingsSet -MultipleInstances Queue
 $Settings = New-ScheduledTaskSettingsSet -MultipleInstances IgnoreNew
 ```
 
-### Step 6 — Install
+### Step 6 - Install
 
 Run the new installer **elevated**:
 
@@ -294,7 +294,7 @@ Re-running it overwrites the existing task in place (because the registration
 uses `-Force`), so you can iterate on the installer without manually
 unregistering each time.
 
-### Step 7 — Verify
+### Step 7 - Verify
 
 ```powershell
 Get-ScheduledTask -TaskPath '\MyCompanyTasks\' | Format-Table TaskName, State
@@ -312,7 +312,7 @@ what exit code the script returned. `0` = success, anything else = failure.
 > ships with **placeholder** values (`REPLACE-WITH-SMTP-USERNAME` /
 > `REPLACE-WITH-SMTP-PASSWORD`) that you fill in locally before deploying.
 > Once you do, the username and password live in the .ps1 as plain string
-> literals — anyone who can read the file can read those credentials. To keep
+> literals - anyone who can read the file can read those credentials. To keep
 > them safe, do at least one of:
 >
 > 1. **Never commit real credentials.** Keep the placeholders in source control
@@ -338,9 +338,9 @@ Repo-level contribution conventions live in the organisation-wide
 [`Kinsman4249/.github-private`](https://github.com/Kinsman4249/.github-private)
 repository. That includes:
 
-- `CONTRIBUTING.md` — branching, PR, and review conventions
+- `CONTRIBUTING.md`- branching, PR, and review conventions
 - `CODE_OF_CONDUCT.md`
-- `SECURITY.md` — how to report a vulnerability
+- `SECURITY.md`- how to report a vulnerability
 - `SUPPORT.md`
 - Default issue and pull-request templates
 
@@ -353,6 +353,6 @@ you do not need to duplicate them here.
 
 **All Rights Reserved.** Copyright (c) 2026 Ethan Antonio.
 
-This is proprietary software — see [`LICENSE`](LICENSE) for the full terms. No
+This is proprietary software - see [`LICENSE`](LICENSE) for the full terms. No
 use, copying, modification, or distribution is permitted without the copyright
 holder's prior written consent.
